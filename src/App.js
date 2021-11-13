@@ -1,10 +1,12 @@
+import Main from './Components/Main'
 
 function App() {
   return (
     <div className="App">
-      Learn React
+      <h2>SpeedBack Scheduler</h2>
+      <Main />
     </div>
   );
 }
 
-export default App;
+export default App
