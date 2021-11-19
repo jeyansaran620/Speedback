@@ -80,7 +80,7 @@ class Main extends React.Component {
                 { teamOneError !== "" ?  <div>{teamOneError}</div> : null } <br/> 
 
 
-                <button disabled={teamOne.length < 1} onClick={() => this.createMapWithinTeam()}>
+                <button disabled={teamOne.length < 2} onClick={() => this.createMapWithinTeam()}>
                  Schedule within this team
                 </button>
 

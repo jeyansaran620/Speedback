@@ -94,6 +94,16 @@ describe('test render map within team', () => {
         expect(actualMap.length).toBe(0)
     })
 
+    test('should return empty map if the team has only one player', () => 
+    {
+        let team1 = ["a"]
+
+        let actualMap = renderMapWithinTeam(team1)
+
+        expect(actualMap.length).toBe(0)
+    })
+
+
     test('should return a map without a player conflict within all its rounds', () =>
     {
         actualMap.forEach(round => {
