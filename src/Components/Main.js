@@ -1,4 +1,5 @@
 import React from 'react'
+import {renderMap, getArrayFromList} from '../helpers/utilities'
 
 class Main extends React.Component {
     constructor(props) {
@@ -15,18 +16,15 @@ class Main extends React.Component {
         }
     }
 
-    getArrayFromList(list){
-        return list.split("\n").filter((value) => value.trim().length > 0)
-    }
-
     checkMembersCount(members){
         if(members.length < 1)
             return "Add atleast One Member"
         return ""
     }
+
     changeValue1(newValue)
     {
-        let members = this.getArrayFromList(newValue)
+        let members = getArrayFromList(newValue)
 
         this.setState({
             teamOneInput : newValue,
@@ -37,7 +35,7 @@ class Main extends React.Component {
 
     changeValue2(newValue)
     {
-        let members = this.getArrayFromList(newValue)
+        let members = getArrayFromList(newValue)
 
         this.setState({
             teamTwoInput : newValue,
@@ -46,34 +44,12 @@ class Main extends React.Component {
         })
     }
 
-    assignPair(map,pair,i,j,startFrom)
-    {
-        for(let iterator= startFrom ; iterator< map.length ; iterator++ % map.length) {
-            if(!(Array.from(map[iterator].keys()).filter((key) => `${i}` === key.split(":")[0] || `-${j}` ===  key.split(":")[1]).length > 0))
-            {
-                map[iterator].set(`${i}:-${j}`,pair)
-                return iterator
-            }
-        }
-    }
 
-    renderMap()
+    createMap()
     {
         const {teamOne, teamTwo } = this.state
 
-        let map = []
-        const higherLength = Math.max(teamOne.length,teamTwo.length)
-        let count = 0
-        let startFrom = 0
-        teamOne.forEach((ESSer,i) =>  {
-            teamTwo.forEach((TWer,j) => {
-                if(count++ < higherLength)
-                {
-                    map.push(new Map())
-                }
-                startFrom =  (this.assignPair(map,[ESSer,TWer],i,j,startFrom) + 1) % map.length
-            })
-        })
+        let map = renderMap(teamOne, teamTwo)
 
         this.setState({
             mapDone: true,
@@ -95,7 +71,7 @@ class Main extends React.Component {
                 <h5>count {teamTwo.length}</h5> <br/>
                 { teamTwoError !== "" ?  <div>{teamTwoError}</div> : null } <br/>
 
-                <button disabled={teamOne.length < 1 || teamTwo.length < 1} onClick={() => this.renderMap()}>
+                <button disabled={teamOne.length < 1 || teamTwo.length < 1} onClick={() => this.createMap()}>
                  Schedule
                 </button>
                 {mapDone ? 
