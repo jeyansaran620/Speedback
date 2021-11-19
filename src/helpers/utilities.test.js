@@ -1,4 +1,4 @@
-import { renderMapBetweenTeams, renderMapWithinTeam} from "./utilities";
+import { renderMapBetweenTeams, checkPairExistInTheList, renderMapWithinTeam} from "./utilities";
 
 describe('test render map between teams', () => {
 
@@ -37,14 +37,14 @@ describe('test render map between teams', () => {
 
     test('should return a map which has all the pair within a team', () => 
     {
-        expect(returnAllThePairsInTheMap(actualMap).sort()).toEqual(returnAllPossiblePairWithinTeams(team1,team2).sort())
+        expect(returnAllThePairsInTheMap(actualMap).sort()).toEqual(returnAllPossiblePairsBetweenTeams(team1,team2).sort())
     })
 
 })
 
 describe('test render map within team', () => {
 
-    let team = ["a", "b", "c"]
+    let team = ["a","b","c","d"]
 
     let actualMap = renderMapWithinTeam(team)
 
@@ -61,36 +61,68 @@ describe('test render map within team', () => {
 
         expect(actualMap.length).toBe(0)
     })
-})
 
+    test('should return a map without a player conflict within all its rounds', () =>
+    {
+        actualMap.forEach(round => {
+        expect(checkForConflictWithinARound(round)).toBeFalsy()      
+        });
+    })
+
+    test('should return a map which has all the pair within a team', () => 
+    {
+        expect(returnAllThePairsInTheMap(actualMap).sort()).toEqual(returnAllPossiblePairsWithinATeam(team).sort())
+    })
+
+})
 
 
 // helper functions
 const checkForConflictWithinARound = (round) => {
 
-    let playersInTheMap = []
+    let players = []
+    let playersInSet = new Set()
+    const roundArray = Array.from(round.keys())
 
-    round.forEach( pair => {
-        if(pair[0] in playersInTheMap || pair[1] in playersInTheMap)
-        {
-            return true
-        }
-        else 
-        {
-            playersInTheMap.push(pair[0])
-            playersInTheMap.push(pair[1])
-        }
-    })
+    let roundLength = roundArray.length
 
-    return false
+    for(let iterator=0 ; iterator < roundLength ; iterator++) 
+    {
+        let pair = roundArray[iterator].split(":")
+
+        players.push(pair[0])
+        playersInSet.add(pair[0])
+        players.push(pair[1])
+        playersInSet.add(pair[1])
+    }
+
+    return players.length !== playersInSet.size
 }
 
-const returnAllPossiblePairWithinTeams = (team1, team2) => {
+const returnAllPossiblePairsWithinATeam = (team) => {
+
+    let pairsTillNow = []
+
+    team.forEach((one, i) => {
+        team.forEach( (two, j) => {
+
+            if(!(i===j || checkPairExistInTheList(pairsTillNow,i,j)))
+            {
+                pairsTillNow.push(`${i}:${j}`)
+            }
+
+        })
+    })
+    
+    return pairsTillNow
+}
+
+const returnAllPossiblePairsBetweenTeams = (team1, team2) => {
     let possiblePairs = []
 
-    team1.forEach( one => {
-        team2.forEach( two => {
-            possiblePairs.push([one,two])
+    team1.forEach((one, i) => {
+        team2.forEach( (two, j) => {
+            possiblePairs.push(`${i}:-${j}`)
         })
     })
     
@@ -100,8 +132,8 @@ const returnAllPossiblePairWithinTeams = (team1, team2) => {
 const returnAllThePairsInTheMap = (map) => {
     let pairsInTheMap = []
 
-    map.forEach(rounds => {
-        rounds.forEach(pair => {
+    map.forEach(round => {
+        Array.from(round.keys()).forEach(pair => {
             pairsInTheMap.push(pair)
         })
     })
