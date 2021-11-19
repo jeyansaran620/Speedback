@@ -15,12 +15,13 @@ const assignPairInMap = (map,pair,i,j,startFrom) =>
     }
 }
 
-const renderMap = (teamOne, teamTwo) =>
+const renderMapBetweenTeams = (teamOne, teamTwo) =>
 {
     let map = []
     const higherLength = Math.max(teamOne.length,teamTwo.length)
     let count = 0
     let startFrom = 0
+    
     teamOne.forEach((one,i) =>  {
         teamTwo.forEach((two,j) => {
             if(count++ < higherLength)
@@ -34,9 +35,14 @@ const renderMap = (teamOne, teamTwo) =>
    return map
 }
 
+const renderMapWithinTeam = (team) => {
+    let map = []
+
+    return map
+}
 
 const getArrayFromList = (list) => {
     return list.split("\n").filter((value) => value.trim().length > 0)
 }
 
-export {renderMap, getArrayFromList}
+export {renderMapBetweenTeams, renderMapWithinTeam, getArrayFromList}
