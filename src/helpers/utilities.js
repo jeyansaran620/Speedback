@@ -3,6 +3,11 @@ const checkOneOfThePairIsInTheRoundBetweenTeams = (round,i,j) =>
     return Array.from(round.keys()).filter((key) => `${i}` === key.split(":")[0] || `-${j}` ===  key.split(":")[1]).length > 0
 }
 
+const checkOneOfThePairIsInTheRoundWithinTeam = (round,i,j) =>
+{
+    return Array.from(round.keys()).filter((key) => `${i}` === key.split(":")[0] || `${j}` ===  key.split(":")[0] || `${i}` === key.split(":")[1] || `${j}` ===  key.split(":")[1]).length > 0
+}
+
 const assignPairInMapBetweenTeams = (map,pair,i,j,startFrom) =>
 {
     let iterator= startFrom 
@@ -16,11 +21,6 @@ const assignPairInMapBetweenTeams = (map,pair,i,j,startFrom) =>
     }
 
     return iterator
-}
-
-const checkOneOfThePairIsInTheRoundWithinTeam = (round,i,j) =>
-{
-    return Array.from(round.keys()).filter((key) => `${i}` === key.split(":")[0] || `${j}` ===  key.split(":")[0] || `${i}` === key.split(":")[1] || `${j}` ===  key.split(":")[1]).length > 0
 }
 
 const assignPairInMapWithinTeam = (map,pair,i,j,startFrom) =>
@@ -41,6 +41,20 @@ const assignPairInMapWithinTeam = (map,pair,i,j,startFrom) =>
     return iterator
 }
 
+const checkPairExistInTheList = (list,i,j) =>
+{
+    let listLength = list.length
+
+    for(let iterator = 0 ; iterator< listLength ; iterator++) 
+    {
+        let pair = list[iterator]
+        if(pair === `${i}:${j}` || pair === `${j}:${i}`)
+        {
+            return true
+        }
+    }
+    return false
+}
 
 const renderMapBetweenTeams = (teamOne, teamTwo) =>
 {
@@ -61,22 +75,6 @@ const renderMapBetweenTeams = (teamOne, teamTwo) =>
 
    return map
 }
-
-const checkPairExistInTheList = (list,i,j) =>
-{
-    let listLength = list.length
-
-    for(let iterator = 0 ; iterator< listLength ; iterator++) 
-    {
-        let pair = list[iterator]
-        if(pair === `${i}:${j}` || pair === `${j}:${i}`)
-        {
-            return true
-        }
-    }
-    return false
-}
-
 
 const renderMapWithinTeam = (team) => {
     let map = []
@@ -106,8 +104,15 @@ const renderMapWithinTeam = (team) => {
     return map
 }
 
-const getArrayFromList = (list) => {
-    return list.split("\n").filter((value) => value.trim().length > 0)
+const getListFromText = (list) => {
+    return list.split("\n").map((value) => value.trim()).filter((value) => value.length > 0)
 }
 
-export {renderMapBetweenTeams, renderMapWithinTeam, checkPairExistInTheList, getArrayFromList}
+
+const shuffleMyList = (list) => {
+ 
+    return list.sort( ()=>Math.random()-0.5 );
+  
+ }
+
+export {renderMapBetweenTeams, renderMapWithinTeam, checkPairExistInTheList, shuffleMyList, getListFromText}

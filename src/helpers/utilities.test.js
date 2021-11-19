@@ -1,4 +1,36 @@
-import { renderMapBetweenTeams, checkPairExistInTheList, renderMapWithinTeam} from "./utilities";
+import { renderMapBetweenTeams, checkPairExistInTheList, renderMapWithinTeam, getListFromText } from "./utilities";
+
+describe('test get list from text', () => {
+
+    test('should return empty list for empty text', () => 
+    {
+        const text  = ""
+        const list  = getListFromText(text)
+        expect(list.length).toBe(0)
+    })
+    
+    test('should return a list with all the values trimmed', () => 
+    {
+        const text  = `hello \n hello \n hey`
+        let expectedList = ["hello", "hello", "hey"]
+
+        const actualList  = getListFromText(text)
+
+        expect(actualList.length).toBe(3)
+        expect(expectedList).toStrictEqual(actualList)
+    })
+
+    test('should skip the value if it is empty', () => 
+    {
+        const text  = `hello \n \n`
+        let expectedList = ["hello"]
+
+        const actualList  = getListFromText(text)
+        
+        expect(actualList.length).toBe(1)
+        expect(expectedList).toStrictEqual(actualList)
+    })
+})
 
 describe('test render map between teams', () => {
 

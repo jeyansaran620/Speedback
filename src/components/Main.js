@@ -1,5 +1,5 @@
 import React from 'react'
-import {renderMapBetweenTeams, renderMapWithinTeam, getArrayFromList} from '../helpers/utilities'
+import {renderMapBetweenTeams, renderMapWithinTeam, shuffleMyList, getListFromText} from '../helpers/utilities'
 
 class Main extends React.Component {
     constructor(props) {
@@ -24,7 +24,7 @@ class Main extends React.Component {
 
     changeValue1(newValue)
     {
-        let members = getArrayFromList(newValue)
+        let members = getListFromText(newValue)
 
         this.setState({
             teamOneInput : newValue,
@@ -35,7 +35,7 @@ class Main extends React.Component {
 
     changeValue2(newValue)
     {
-        let members = getArrayFromList(newValue)
+        let members = getListFromText(newValue)
 
         this.setState({
             teamTwoInput : newValue,
@@ -46,9 +46,9 @@ class Main extends React.Component {
 
     createMapWithinTeam()
     {
-        const {teamOne } = this.state
+        const { teamOne } = this.state
 
-        let map = renderMapWithinTeam(teamOne)
+        let map = renderMapWithinTeam(shuffleMyList(teamOne))
 
         this.setState({
             mapDone: true,
@@ -60,7 +60,7 @@ class Main extends React.Component {
     {
         const {teamOne, teamTwo } = this.state
 
-        let map = renderMapBetweenTeams(teamOne, teamTwo)
+        let map = renderMapBetweenTeams(shuffleMyList(teamOne), shuffleMyList(teamTwo))
 
         this.setState({
             mapDone: true,
@@ -71,7 +71,7 @@ class Main extends React.Component {
     render()
     {
         const {teamOneInput,teamOne,teamOneError,teamTwoInput,teamTwo,teamTwoError,mapDone,map} = this.state
-        
+
         return(
             <div>
                 <label htmlFor="teamOneInput"><h4>Team 1:</h4></label>
