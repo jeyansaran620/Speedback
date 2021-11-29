@@ -32,8 +32,7 @@ class Main extends React.Component {
     toggleDualTeamsOption()
     {
         this.setState({
-            dual: !this.state.dual,
-            teamTwo: [] 
+            dual: !this.state.dual
         })
     }
 
@@ -71,9 +70,9 @@ class Main extends React.Component {
                     '& .MuiTextField-root': { m: 1 },
                     
                 }}>
-                <Input name="Team 1" onTeamChange={(newMembers) => this.updateTeam(newMembers,1)}/>
+                <Input name="Team 1" show={true} onTeamChange={(newMembers) => this.updateTeam(newMembers,1)}/>
                 
-                {dual ?  <Input name="Team 2" onTeamChange={(newMembers) => this.updateTeam(newMembers,2)}/> : null}
+                <Input name="Team 2" show={dual} onTeamChange={(newMembers) => this.updateTeam(newMembers,2)}/>
     
                 <Typography variant="h6">
                 <Switch

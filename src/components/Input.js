@@ -39,9 +39,11 @@ class Input extends React.Component {
     render()
     {
         const {inputName, inputValue, errorMessage, membersCount } = this.state
+        const { show }  = this.props
         return(
             <div>
-                <TextField
+                <TextField 
+                    sx={!show ? { display: 'none'}: null}
                     label= {inputName}
                     style={{ width: 400 }}
                     multiline
