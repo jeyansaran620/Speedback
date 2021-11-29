@@ -1,4 +1,4 @@
-import { renderMapBetweenTeams, checkPairExistInTheList, renderMapWithinTeam, getListFromText } from "./utilities";
+import { renderScheduleBetweenTeams, checkPairExistInTheList, renderScheduleWithinTeam, getListFromText } from "./utilities";
 
 describe('test get list from text', () => {
 
@@ -37,11 +37,11 @@ describe('test render map between teams', () => {
     let team1 = ["a", "b"]
     let team2 = ["c", "d"]
 
-    let actualMap = renderMapBetweenTeams(team1,team2)
+    let actualSchedule = renderScheduleBetweenTeams(team1,team2)
 
     test('should return a map between given teams', () => 
     {
-        expect(actualMap).toBeTruthy()
+        expect(actualSchedule).toBeTruthy()
     })
 
     test('should return empty map if either team is empty', () => 
@@ -49,27 +49,27 @@ describe('test render map between teams', () => {
         let team1 = ["a", "b"]
         let team2 = []
 
-        let actualMap = renderMapBetweenTeams(team1,team2)
+        let actualSchedule = renderScheduleBetweenTeams(team1,team2)
 
-        expect(actualMap.length).toBe(0)
+        expect(actualSchedule.length).toBe(0)
     })
 
     test('should return a map having rounds of highest team count', () => 
     {
         let expectedCount = Math.max(team1.length,team2.length)
-        expect(actualMap.length).toBe(expectedCount)
+        expect(actualSchedule.length).toBe(expectedCount)
     })
 
     test('should return a map without a player conflict within all its rounds', () =>
     {
-        actualMap.forEach(round => {
+        actualSchedule.forEach(round => {
         expect(checkForConflictWithinARound(round)).toBeFalsy()      
         });
     })
 
     test('should return a map which has all the pair within a team', () => 
     {
-        expect(returnAllThePairsInTheMap(actualMap).sort()).toEqual(returnAllPossiblePairsBetweenTeams(team1,team2).sort())
+        expect(returnAllThePairsInTheMap(actualSchedule).sort()).toEqual(returnAllPossiblePairsBetweenTeams(team1,team2).sort())
     })
 
 })
@@ -78,42 +78,42 @@ describe('test render map within team', () => {
 
     let team = ["a","b","c","d"]
 
-    let actualMap = renderMapWithinTeam(team)
+    let actualSchedule = renderScheduleWithinTeam(team)
 
     test('should return a map for a given team', () => 
     {
-        expect(actualMap).toBeTruthy()
+        expect(actualSchedule).toBeTruthy()
     })
 
     test('should return empty map if the team is empty', () => 
     {
         let team = []
 
-        let actualMap = renderMapWithinTeam(team)
+        let actualSchedule = renderScheduleWithinTeam(team)
 
-        expect(actualMap.length).toBe(0)
+        expect(actualSchedule.length).toBe(0)
     })
 
     test('should return empty map if the team has only one player', () => 
     {
         let team1 = ["a"]
 
-        let actualMap = renderMapWithinTeam(team1)
+        let actualSchedule = renderScheduleWithinTeam(team1)
 
-        expect(actualMap.length).toBe(0)
+        expect(actualSchedule.length).toBe(0)
     })
 
 
     test('should return a map without a player conflict within all its rounds', () =>
     {
-        actualMap.forEach(round => {
+        actualSchedule.forEach(round => {
         expect(checkForConflictWithinARound(round)).toBeFalsy()      
         });
     })
 
     test('should return a map which has all the pair within a team', () => 
     {
-        expect(returnAllThePairsInTheMap(actualMap).sort()).toEqual(returnAllPossiblePairsWithinATeam(team).sort())
+        expect(returnAllThePairsInTheMap(actualSchedule).sort()).toEqual(returnAllPossiblePairsWithinATeam(team).sort())
     })
 
 })

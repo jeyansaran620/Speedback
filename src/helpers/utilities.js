@@ -8,7 +8,7 @@ const checkOneOfThePairIsInTheRoundWithinTeam = (round,i,j) =>
     return Array.from(round.keys()).filter((key) => `${i}` === key.split(":")[0] || `${j}` ===  key.split(":")[0] || `${i}` === key.split(":")[1] || `${j}` ===  key.split(":")[1]).length > 0
 }
 
-const assignPairInMapBetweenTeams = (map,pair,i,j,startFrom) =>
+const assignPairInScheduleBetweenTeams = (map,pair,i,j,startFrom) =>
 {
     let iterator= startFrom 
     for(let play = 0; play < map.length ; iterator = ((iterator + 1) % map.length), play++ ) 
@@ -23,7 +23,7 @@ const assignPairInMapBetweenTeams = (map,pair,i,j,startFrom) =>
     return iterator
 }
 
-const assignPairInMapWithinTeam = (map,pair,i,j,startFrom) =>
+const assignPairInScheduleWithinTeam = (map,pair,i,j,startFrom) =>
 {
     let iterator= startFrom 
     
@@ -56,7 +56,7 @@ const checkPairExistInTheList = (list,i,j) =>
     return false
 }
 
-const renderMapBetweenTeams = (teamOne, teamTwo) =>
+const renderScheduleBetweenTeams = (teamOne, teamTwo) =>
 {
     let map = []
     const roundCount = Math.max(teamOne.length,teamTwo.length)
@@ -69,14 +69,14 @@ const renderMapBetweenTeams = (teamOne, teamTwo) =>
             {
                 map.push(new Map())
             }
-            startFrom =  (assignPairInMapBetweenTeams(map,{one,two},i,j,startFrom) + 1) % roundCount
+            startFrom =  (assignPairInScheduleBetweenTeams(map,{one,two},i,j,startFrom) + 1) % roundCount
         })
     })
 
    return map
 }
 
-const renderMapWithinTeam = (team) => {
+const renderScheduleWithinTeam = (team) => {
     let map = []
     const teamCount = team.length
     const roundCount = teamCount % 2 === 0 ? teamCount - 1 : teamCount
@@ -95,7 +95,7 @@ const renderMapWithinTeam = (team) => {
                     map.push(new Map())
                 }
                 pairsTillNow.push(`${i}:${j}`)
-                startFrom =  (assignPairInMapWithinTeam(map,{one,two},i,j,startFrom) + 1) % roundCount
+                startFrom =  (assignPairInScheduleWithinTeam(map,{one,two},i,j,startFrom) + 1) % roundCount
                 
             }
         })
@@ -115,4 +115,4 @@ const shuffleMyList = (list) => {
   
  }
 
-export {renderMapBetweenTeams, renderMapWithinTeam, checkPairExistInTheList, shuffleMyList, getListFromText}
+export {renderScheduleBetweenTeams, renderScheduleWithinTeam, checkPairExistInTheList, shuffleMyList, getListFromText}

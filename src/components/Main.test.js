@@ -1,14 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import Main from './Main'
+import Box from '@mui/material/Box';
+import { shallow, configure } from 'enzyme';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
+
+configure({ adapter: new Adapter() });
 test('renders learn react link', () => {
 
-  render(<Main />)
+  const component =  shallow(<Main />)
 
-  const linkElement1 = screen.getByText(/Team 1:/i)
-  const linkElement2 = screen.getByText(/Team 2:/i)
-
-  expect(linkElement1).toBeTruthy()
-  expect(linkElement2).toBeTruthy()
+  expect(component.find(Box)).toBeTruthy()
 
 })
